@@ -14,7 +14,7 @@ def txt2pdf(textfn, ps_prefix=None, pdf_prefix=None):
         os.system("enscript -p {0} {1}".format(psfn, textfn))
         os.system("ps2pdf {0} {1}".format(psfn, pdffn))
     except Exception as e:
-        return "Failed, please check if you've installed `enscript` and `ps2pdf` command:\n{}".format(e)
+        return "Failed, please check if you've installed `enscript` and `ps2pdf` commands:\n{}".format(e)
 
 def copyTextFileTo(fn, outf, logfn=False):
     if logfn: outf.write('\n\n\n####################################\n'+fn+'\n####################################\n')
@@ -24,7 +24,9 @@ def copyTextFileTo(fn, outf, logfn=False):
 def collectCodes(source_dir, outputfn,
                  filepats=[re.compile('\w+\.pyw?$'),re.compile('\w+\.(cpp|h|cc?)$'),
                            re.compile('\w+\.java$'),re.compile('\w+\.scala$')],
-                 filterpats = [re.compile('.+\/build\/.+'), re.compile('.+\/UI[\/]?$'), re.compile('.+\/youtub-dl[\/]?$')]):
+                 filterpats = [re.compile('.+\/build\/.+'), re.compile('.+\/UI[\/]?$'),
+                               re.compile('.+\/youtub-dl[\/]?$'),
+                               re.compile('.+\/demos?\/.+')]):
     """
     >>> collect(source_dir, outputfn)
     """
@@ -41,6 +43,8 @@ def collectCodes(source_dir, outputfn,
 def codes2pdf(source_dir, pdf_prefix):
     """
     collect a project source codes into a pdf file
+    >>> from pomelo.tool import victorinox
+    >>> victorinox.codes2pdf('MemN2N-tensorflow/','MemN2N')
     """
     textfn = pdf_prefix+'.txt'
     collectCodes(source_dir, textfn)
